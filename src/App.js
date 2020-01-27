@@ -39,7 +39,8 @@ const schema = Joi.object({
         .required(),
 })
 
-const API_URL = window.location.hostname == 'localhost' ? 'http://localhost:5000/api/v1/messages' : 'production-url-here';
+const API_URL = window.location.hostname == 'localhost' ? 'http://localhost:5000/api/v1/messages'
+  : PROCESS.ENV.API_URL;
 
 class App extends Component {
 
@@ -221,4 +222,3 @@ export default App;
 //3'31'00 du tuto
 // deploy with heroku
 // penser au database url une fois sur heroku
-//mettre sur github
