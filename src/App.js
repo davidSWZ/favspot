@@ -39,8 +39,7 @@ const schema = Joi.object({
         .required(),
 })
 
-const API_URL = window.location.hostname == 'localhost' ? 'http://localhost:5000/api/v1/messages'
-  : PROCESS.ENV.API_URL;
+const API_URL = window.location.hostname == 'localhost' ? 'http://localhost:5000/api/v1/messages': process.env.API_URL;
 
 class App extends Component {
 
