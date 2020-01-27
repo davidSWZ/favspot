@@ -174,7 +174,7 @@ formIsValid() {
           }
         </Map>
         <Card body className="formulaire">
-          <CardTitle>Favspot</CardTitle>
+          <CardTitle>myFavSpots</CardTitle>
           <CardText>You've find a new cool spot, and you want to remember it, you've come to the right spot!</CardText>
           {!this.state.sendingMessage && !this.state.sentMessage && this.state.gotUserLocation ?
             <Form   onSubmit={this.onSubmit}>
