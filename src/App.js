@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -25,5 +26,11 @@ app.use('/api/v1', api);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
+
+//Configuration pour passer en production sur Heroku
+  app.use(express.static(path.join(__dirname, "..", "client", "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+  });
 
 module.exports = app;
