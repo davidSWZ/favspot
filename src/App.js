@@ -18,7 +18,7 @@ app.use(express.json());
 
 //Configuration pour passer en production sur Heroku
   app.use(express.static(path.join(__dirname, "../client/build")));
-  app.get("*", (req, res) => {
+  app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 
