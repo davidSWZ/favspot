@@ -56,7 +56,8 @@ class App extends Component {
     },
     sendingMessage: false,
     sentMessage: false,
-    messages: []
+    messages: [],
+    displayCard: true
   };
 
   componentDidMount() {
@@ -93,16 +94,14 @@ class App extends Component {
     })
   }
 
-formIsValid() {
-  const newSpot = {
-    nameSpot : this.state.newSpot.nameSpot,
-    message : this.state.newSpot.message
+  formIsValid() {
+    const newSpot = {
+      nameSpot : this.state.newSpot.nameSpot,
+      message : this.state.newSpot.message
+    }
+    const result = Joi.validate(newSpot, schema);
+    return !result.error && this.state.gotUserLocation ? true : false;
   }
-
-  const result = Joi.validate(newSpot, schema);
-
-  return !result.error && this.state.gotUserLocation ? true : false;
-}
 
   onSubmit = (e) =>  {
     e.preventDefault();
@@ -144,6 +143,14 @@ formIsValid() {
      }))
   }
 
+  closeCard = (e) => {
+    this.setState({displayCard:false});
+  }
+
+  openCard = (e) => {
+    this.setState({displayCard:true});
+  }
+
   render() {
     const position = [this.state.position.lat, this.state.position.lng];
 
@@ -173,44 +180,53 @@ formIsValid() {
           }
           }
         </Map>
-        <Card body className="formulaire">
-          <CardTitle>myFavSpots</CardTitle>
-          <CardText>You've find a new cool spot, and you want to remember it, you've come to the right spot!</CardText>
-          {!this.state.sendingMessage && !this.state.sentMessage && this.state.gotUserLocation ?
-            <Form   onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for="nameSpot">Spot</Label>
-                <Input
-                  onChange={this.changeValue}
-                  type="text"
-                  name="nameSpot"
-                  id="nameSpot"
-                  placeholder="What's the spot?"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="message">Message</Label>
-                <Input
-                  onChange={this.changeValue}
-                  type="textarea"
-                  name="message"
-                  id="message"
-                  placeholder="Give a comment"
-                />
-              </FormGroup>
-              <Button
-                color="info"
-                type="submit"
-                disabled={!this.formIsValid()}
-              >Send
-              </Button>
-            </Form> :
-            this.state.sendingMessage || !this.state.gotUserLocation ?
-            <img alt="loading..." src="https://i.giphy.com/media/3oEjHTSuJrMnj08DpS/giphy.webp" /> :
-            <CardText>Nice, You've got a new favorite spot!</CardText>
-          }
 
-        </Card>
+        { this.state.displayCard ?
+          <Card body className="formulaire">
+            <CardTitle>myFavSpots
+              <Button outline color="secondary" onClick={this.closeCard} className="closeBtn">X</Button>
+            </CardTitle>
+            <CardText>You've find a new cool spot, and you want to remember it, you've come to the right spot!</CardText>
+            {!this.state.sendingMessage && !this.state.sentMessage && this.state.gotUserLocation ?
+              <Form   onSubmit={this.onSubmit}>
+                <FormGroup>
+                  <Label for="nameSpot">Spot</Label>
+                  <Input
+                    onChange={this.changeValue}
+                    type="text"
+                    name="nameSpot"
+                    id="nameSpot"
+                    placeholder="What's the spot?"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="message">Message</Label>
+                  <Input
+                    onChange={this.changeValue}
+                    type="textarea"
+                    name="message"
+                    id="message"
+                    placeholder="Give a comment"
+                  />
+                </FormGroup>
+                <Button
+                  color="info"
+                  type="submit"
+                  disabled={!this.formIsValid()}
+                >Send
+                </Button>
+              </Form> :
+              this.state.sendingMessage || !this.state.gotUserLocation ?
+              <img alt="loading..." src="https://i.giphy.com/media/3oEjHTSuJrMnj08DpS/giphy.webp" /> :
+              <CardText>Nice, You've got a new favorite spot!</CardText>
+            }
+
+          </Card> :
+
+              <Button color="info" onClick={this.openCard} className="formulaire">Add a spot</Button>
+
+        }
+
       </div>
     )
   }
@@ -219,5 +235,3 @@ export default App;
 
 
 //3'31'00 du tuto
-// deploy with heroku
-// penser au database url une fois sur heroku

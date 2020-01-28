@@ -14,5 +14,12 @@
 img{
   width: 100%;
   height: auto;
+}
 
+.closeBtn{
+  width:30px;
+  height: auto;
+  padding: 0px !important;
+  margin-left: 130px;
+  z-index: 9999;
 }
