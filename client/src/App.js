@@ -151,6 +151,16 @@ class App extends Component {
     this.setState({displayCard:true});
   }
 
+  updatePosition = (e) => {
+    const newPosition = e.target.getLatLng();
+    this.setState({
+      position:{
+        lat: newPosition.lat,
+        lng: newPosition.lng
+      }
+    })
+  }
+
   render() {
     const position = [this.state.position.lat, this.state.position.lng];
 
@@ -163,7 +173,7 @@ class App extends Component {
           />
           {
             this.state.gotUserLocation ?
-            <Marker position={position} icon={userIcon}>
+            <Marker position={position} icon={userIcon} draggable={true} onDragend={this.updatePosition}>
             </Marker> : ''
           }
           {
